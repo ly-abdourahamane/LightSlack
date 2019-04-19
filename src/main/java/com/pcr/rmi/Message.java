@@ -2,7 +2,8 @@ package com.pcr.rmi;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * @author abdou on 15/04/19.
@@ -10,8 +11,7 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
-public class Message {
+public class Message implements Serializable {
 
     private String value;
     private String sender;
@@ -19,5 +19,10 @@ public class Message {
     public Message(String value, String sender) {
         this.value = value;
         this.sender = sender;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + sender + "] " + value;
     }
 }

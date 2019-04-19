@@ -2,6 +2,8 @@ package com.pcr.rmi.server;
 
 import com.pcr.rmi.Message;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -15,18 +17,28 @@ public class Server extends UnicastRemoteObject implements IServer {
 
     private List<Message> messages;
 
-    protected Server() throws RemoteException {
-        super();
+    Server() throws RemoteException {
         messages = new ArrayList<>();
     }
 
     @Override
     public void receive(Message message) throws RemoteException {
+        System.out.println(message);
         messages.add(message);
     }
 
     @Override
     public List<Message> getMessages() throws RemoteException {
         return messages;
+    }
+
+    public static void main(String[] args) {
+        try {
+            IServer server = new Server();
+            Naming.rebind("localhost/server", server);
+            System.out.println("Server start");
+        } catch (RemoteException | MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }
